@@ -1,13 +1,14 @@
 using System.Collections;
-using System.Collections.generic;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 
 public class BuildingSystem : MonoBehaviour
 {
-    public static BuildingSystem instance; // Singleton building system
+    public static BuildingSystem current; // Singleton building system
 
-    private GridLayout gridLayout;
+    public GridLayout gridLayout;
     private Grid grid;
     [SerializeField] private Tilemap mainTilemap;
     [SerializeField] private TileBase whiteTile;
@@ -16,13 +17,13 @@ public class BuildingSystem : MonoBehaviour
     public GameObject prefab1; // House
     public GameObject prefab2; // Road
 
-    private placeableObject objectToPlace;
+    private PlaceableObject objectToPlace;
 
     #region Unity methods
 
-    private void Awake()
+    private void Start()
     {
-        instance = this;
+        current = this;
         grid = gridLayout.gameObject.GetComponent<Grid>();
     }
 
@@ -30,12 +31,12 @@ public class BuildingSystem : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.B)) // key B for now. look into InputSystem.actions.FindAction("Move") later.
         {
-            InitializeWithObject(prefab1);
+            InitializeObject(prefab1);
         } else if (Input.GetKeyDown(KeyCode.R))
         {
-            InitializeWithObject(prefab2);
+            InitializeObject(prefab2);
         }
-        // Later we want to put all of this into a MENU!
+        // Later we want to put all of this into a menu!
     }
 
     #endregion
@@ -45,7 +46,7 @@ public class BuildingSystem : MonoBehaviour
     public static Vector3 GetMouseWorldPosition()
     {
         RaycastHit hit;
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
             return hit.point;
@@ -53,7 +54,7 @@ public class BuildingSystem : MonoBehaviour
         return Vector3.zero;
     }
 
-    public static Vector3 SnapCoordianteToGrid(Vector3 position)
+    public Vector3 SnapCoordinateToGrid(Vector3 position)
     {
         Vector3Int cellPos = gridLayout.WorldToCell(position);
         position = grid.GetCellCenterWorld(cellPos);

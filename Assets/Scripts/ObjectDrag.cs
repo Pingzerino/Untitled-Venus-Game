@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectDrag : MonoBehaviour
