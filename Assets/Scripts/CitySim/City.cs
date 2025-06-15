@@ -2,7 +2,9 @@
 
 /* This class City stores all relevant information for the city.
  * Buildings, streets, special constructions, the existence of platforms, all of them.
- * 
+ * Specifically, platforms will store buildings' info.
+ * We also have resources.
+ * And population.
  */
 public class City
 {
@@ -25,18 +27,21 @@ public class City
     public int Width { get; }
     public int Height { get; }
 
-    public PlatformSystem[,] platformSystem { get; private set; }
+    public PlatformSystem Platform { get; private set; }
 	
 	// System for managing resources and storing their values
-	public ResourceSystem resourceSystem { get; private set; }
+	public ResourceSystem Resources { get; private set; }
 	
 	// System for managing the population of the city and storing values.
-	public PopulationSystem populationSystem { get; set; }
+	public PopulationSystem Population { get; set; }
 	
 	public City(int w, int h)
 	{
 		Width = w;
 		Height = h;
+		Platform = new PlatformSystem(this, w, h);
+		Resources = new ResourceSystem(this);
 
-	}
+
+    }
 }
