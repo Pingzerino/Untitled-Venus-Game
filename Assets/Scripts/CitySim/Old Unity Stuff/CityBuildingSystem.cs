@@ -66,6 +66,9 @@ public class CityBuildingSystem : MonoBehaviour
         } else if (Input.GetKeyDown(KeyCode.Escape))
         {
             Destroy(objectToPlace.gameObject);
+        } else if (Input.GetKeyDown(KeyCode.Return))
+        {
+            objectToPlace.Rotate();
         }
         // Later we want to put all of this into a menu!
     }

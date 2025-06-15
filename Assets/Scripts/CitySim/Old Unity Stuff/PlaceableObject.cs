@@ -46,6 +46,23 @@ public class PlaceableObject : MonoBehaviour
         GetColliderVertexPositionsLocal();
         CalculateSizeInCells();
     }
+
+    public void Rotate()
+    {
+        transform.Rotate(new Vector3(0, 90, 0));
+        Size = new Vector3Int(Size.y, Size.x, 1);
+
+        Vector3[] vertices = new Vector3[Vertices.Length];
+        {
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                vertices[i] = Vertices[(i + 1) % Vertices.Length];
+            }
+        }
+
+        Vertices = vertices;
+    }
+
     // This is virtual because we will override it eventually for varying buildings
     public virtual void Place()
     {
