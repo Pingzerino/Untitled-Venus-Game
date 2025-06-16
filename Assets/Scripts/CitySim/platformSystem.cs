@@ -1,16 +1,19 @@
 ﻿using System;
 
+
+// PlatformSystem is the class that represents a singular Platform and all its data.
 public class PlatformSystem
 {
     private City _city;
-	// Default values
-    public static float DEFAULTHEALTH = 300f;
-    public static float DEFAULTMAXHEALTH = 300f;
+	// Default constant values
+    private const float DEFAULTHEALTH = 300f;
+    private const float DEFAULTMAXHEALTH = 300f;
+    private const int DEFAULTGRIDSIZE = 11;
 
-    public static int DEFAULTGRIDSIZE = 11;
     // These two fields manage the health of the platform. If it ever hits zero, the platform collapses. Goodbye!
     public float currentHealth { get; private set; }
 	public float maxHealth { get; private set; }
+
     // This represents the platform's location.
     public Tuple<int, int> Position;
 
