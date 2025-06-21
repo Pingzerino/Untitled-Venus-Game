@@ -3,56 +3,72 @@ using System.Collections.Generic;
 
 // This class manages all of the resources in the game. It should include adding resources, decreasing them,
 // and potentially handle passive drain/increases per update.
+
+public enum Resource
+{
+    Water,
+    Food,
+    BuildingMaterials,
+    Metal,
+    PowerCells,
+    Mercurium,
+    Chlorohedra,
+    Aphrite
+}
 public class ResourceSystem
 {
     // References City to interact with other systems whenever things happen
     private City _city;
-	// These two dictionaries will store a string to the resource type, and then resource type to string.
-    private Dictionary<string, ResourceType> Types;
-    private Dictionary<ResourceType, int> balances;
+    // These two dictionaries will store resource to count of resources.
+    private Dictionary<Resource, int> balances;
 
-	public ResourceSystem(City city)
-	{
-		_city = city;
-		Types = new Dictionary<string, ResourceType>();
-		balances = new Dictionary<ResourceType, int>();
+    public ResourceSystem(City city)
+    {
+        _city = city;
+        balances = new Dictionary<Resource, int>();
 
-		AddResourceType("water", "Water");
-        //AddResourceType(new ResourceType("wood", "Wood"));
-        //AddResourceType(new ResourceType("stone", "Stone"));
-        //AddResourceType();
+        // Initialize adding resource types in the format of (id, display name).
+        AddResourceType(Resource.Water, 50);
+        AddResourceType(Resource.Food, 50);
+        AddResourceType(Resource.BuildingMaterials, 50);
+        AddResourceType(Resource.Metal, 50);
+        AddResourceType(Resource.Mercurium, 50);
+        AddResourceType(Resource.Chlorohedra, 50);
+        AddResourceType(Resource.Aphrite, 50);
     }
 
     // Private helper to add a resource to the resource type dictionary
     // and the dictionary holding the amounts associated to each resource
-    private ResourceType AddResourceType(string id, string name)
-	{
-        if (Types.ContainsKey(id)) {
-            Console.WriteLine("Resource already exists!");
-            return Types[id];
-        }
-        ResourceType type = new ResourceType(id, name);
-        Types[type.Id] = type;
-        balances[type] = 0;
-        return type;
-    }
-    
-    // Private helper to find if a type associated with id exists in the Types dictionary
-    private bool TypeExists(string id)
+    private void AddResourceType(Resource id, int amount)
     {
-        return Types.ContainsKey(id);
+        if (balances.ContainsKey(id))
+        {
+            Console.WriteLine("Resource already exists!");
+        }
+        else
+        {
+            balances.Add(id, amount);
+        }
+        
+    }
+
+    // Private helper to find if a type associated with id exists in the Types dictionary
+    private bool ResourceExists(Resource id)
+    {
+        return balances.ContainsKey(id);
     }
 
 
     // Increases the resource with id by i amount
-    public void increaseResource(string id, int i)
+    public void IncreaseResource(Resource id, int i)
     {
-        if (!TypeExists(id)) {
-            Console.WriteLine("Resource does not exist");
-        } else
+        if (!ResourceExists(id))
         {
-            ResourceType type = Types[id];
-            balances[type] = balances[type] + i; 
+            Console.WriteLine("Resource does not exist");
+        }
+        else
+        {
+            balances[id] = balances[id] + i;
         }
     }
 }
